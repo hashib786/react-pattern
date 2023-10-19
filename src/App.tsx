@@ -7,10 +7,10 @@ interface ProductI {
   description: string;
   price: string;
 }
-// interface CompanyI {
-//   companyName: string;
-//   phrase: string;
-// }
+interface CompanyI {
+  companyName: string;
+  phrase: string;
+}
 
 const products: ProductI[] = Array.from({ length: 20 }, () => {
   return {
@@ -20,12 +20,12 @@ const products: ProductI[] = Array.from({ length: 20 }, () => {
   };
 });
 
-// const companies : CompanyI[] = Array.from({ length: 15 }, () => {
-//   return {
-//     companyName: faker.company.name(),
-//     phrase: faker.company.catchPhrase(),
-//   };
-// });
+const companies: CompanyI[] = Array.from({ length: 15 }, () => {
+  return {
+    companyName: faker.company.name(),
+    phrase: faker.company.catchPhrase(),
+  };
+});
 
 function ProductItem({ product }: { product: ProductI }) {
   return (
@@ -37,24 +37,29 @@ function ProductItem({ product }: { product: ProductI }) {
   );
 }
 
-// function CompanyItem({ company, defaultVisibility }) {
-//   const [isVisible, setIsVisible] = useState(defaultVisibility);
+type CompanyItemProps = {
+  company: CompanyI;
+  defaultVisibility: boolean;
+};
 
-//   return (
-//     <li
-//       className="company"
-//       onMouseEnter={() => setIsVisible(true)}
-//       onMouseLeave={() => setIsVisible(false)}
-//     >
-//       <p className="company-name">{company.companyName}</p>
-//       {isVisible && (
-//         <p className="company-phrase">
-//           <strong>About:</strong> {company.phrase}
-//         </p>
-//       )}
-//     </li>
-//   );
-// }
+function CompanyItem({ company, defaultVisibility }: CompanyItemProps) {
+  const [isVisible, setIsVisible] = useState(defaultVisibility);
+
+  return (
+    <li
+      className="company"
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
+    >
+      <p className="company-name">{company.companyName}</p>
+      {isVisible && (
+        <p className="company-phrase">
+          <strong>About:</strong> {company.phrase}
+        </p>
+      )}
+    </li>
+  );
+}
 
 type ListProp<T> = {
   title: string;
@@ -101,6 +106,17 @@ export default function App() {
           items={products}
           render={(product) => (
             <ProductItem key={product.productName} product={product} />
+          )}
+        />
+        <List
+          title="Companies"
+          items={companies}
+          render={(company) => (
+            <CompanyItem
+              key={company.companyName}
+              company={company}
+              defaultVisibility={false}
+            />
           )}
         />
       </div>
