@@ -2,7 +2,17 @@ import { useState } from "react";
 import { faker } from "@faker-js/faker";
 import "./styles.css";
 
-const products = Array.from({ length: 20 }, () => {
+interface ProductI {
+  productName: string;
+  description: string;
+  price: string;
+}
+// interface CompanyI {
+//   companyName: string;
+//   phrase: string;
+// }
+
+const products: ProductI[] = Array.from({ length: 20 }, () => {
   return {
     productName: faker.commerce.productName(),
     description: faker.commerce.productDescription(),
@@ -10,14 +20,14 @@ const products = Array.from({ length: 20 }, () => {
   };
 });
 
-const companies = Array.from({ length: 15 }, () => {
-  return {
-    companyName: faker.company.name(),
-    phrase: faker.company.catchPhrase(),
-  };
-});
+// const companies : CompanyI[] = Array.from({ length: 15 }, () => {
+//   return {
+//     companyName: faker.company.name(),
+//     phrase: faker.company.catchPhrase(),
+//   };
+// });
 
-function ProductItem({ product }) {
+function ProductItem({ product }: { product: ProductI }) {
   return (
     <li className="product">
       <p className="product-name">{product.productName}</p>
@@ -27,26 +37,31 @@ function ProductItem({ product }) {
   );
 }
 
-function CompanyItem({ company, defaultVisibility }) {
-  const [isVisible, setIsVisible] = useState(defaultVisibility);
+// function CompanyItem({ company, defaultVisibility }) {
+//   const [isVisible, setIsVisible] = useState(defaultVisibility);
 
-  return (
-    <li
-      className="company"
-      onMouseEnter={() => setIsVisible(true)}
-      onMouseLeave={() => setIsVisible(false)}
-    >
-      <p className="company-name">{company.companyName}</p>
-      {isVisible && (
-        <p className="company-phrase">
-          <strong>About:</strong> {company.phrase}
-        </p>
-      )}
-    </li>
-  );
-}
+//   return (
+//     <li
+//       className="company"
+//       onMouseEnter={() => setIsVisible(true)}
+//       onMouseLeave={() => setIsVisible(false)}
+//     >
+//       <p className="company-name">{company.companyName}</p>
+//       {isVisible && (
+//         <p className="company-phrase">
+//           <strong>About:</strong> {company.phrase}
+//         </p>
+//       )}
+//     </li>
+//   );
+// }
 
-function List({ title, items }) {
+type ListProp = {
+  title: string;
+  items: Array<ProductI>;
+};
+
+function List({ title, items }: ListProp) {
   const [isOpen, setIsOpen] = useState(true);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -93,12 +108,12 @@ export default function App() {
 }
 
 // LATER: Let's say we got this component from a 3rd-party library, and can't change it. But we still want to add the 2 toggle functionalities to it
-function ProductList({ title, items }) {
-  return (
-    <ul className="list">
-      {items.map((product) => (
-        <ProductItem key={product.productName} product={product} />
-      ))}
-    </ul>
-  );
-}
+// function ProductList({ title, items }) {
+//   return (
+//     <ul className="list">
+//       {items.map((product) => (
+//         <ProductItem key={product.productName} product={product} />
+//       ))}
+//     </ul>
+//   );
+// }
