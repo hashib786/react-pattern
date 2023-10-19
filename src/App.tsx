@@ -1,18 +1,30 @@
 import Counter from "./Counter";
 import "./styles.css";
 
+const { Count, Decrease, Increase, Label } = Counter;
+
 export default function App() {
   return (
     <div>
       <h1>Compound Component Pattern</h1>
-      <Counter
-        iconIncrease="+"
-        iconDecrease="-"
-        label="My NOT so flexible counter"
-        hideLabel={false}
-        hideIncrease={false}
-        hideDecrease={false}
-      />
+      <Counter>
+        <div>
+          <Label>Hello World</Label>
+        </div>
+        <Decrease Icon="➖" />s
+        <Count />
+        <Increase Icon="➕" />
+      </Counter>
+      <div>
+        <Counter>
+          <div>
+            <Label>Hello World</Label>
+          </div>
+          <Decrease Icon="➖" />s
+          <Count />
+          <Increase Icon="➕" />
+        </Counter>
+      </div>
     </div>
   );
 }
