@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { faker } from "@faker-js/faker";
 import "./styles.css";
 
@@ -56,12 +56,13 @@ function ProductItem({ product }: { product: ProductI }) {
 //   );
 // }
 
-type ListProp = {
+type ListProp<T> = {
   title: string;
-  items: Array<ProductI>;
+  items: Array<T>;
+  render: (item: T) => ReactNode;
 };
 
-function List({ title, items }: ListProp) {
+function List<T>({ title, items, render }: ListProp<T>) {
   const [isOpen, setIsOpen] = useState(true);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -80,13 +81,7 @@ function List({ title, items }: ListProp) {
           {isOpen ? <span>&or;</span> : <span>&and;</span>}
         </button>
       </div>
-      {isOpen && (
-        <ul className="list">
-          {displayItems.map((product) => (
-            <ProductItem key={product.productName} product={product} />
-          ))}
-        </ul>
-      )}
+      {isOpen && <ul className="list">{displayItems.map(render)}</ul>}
 
       <button onClick={() => setIsCollapsed((isCollapsed) => !isCollapsed)}>
         {isCollapsed ? `Show all ${items.length}` : "Show less"}
@@ -101,7 +96,13 @@ export default function App() {
       <h1>Render Props Demo</h1>
 
       <div className="col-2">
-        <List title="Products" items={products} />
+        <List
+          title="Products"
+          items={products}
+          render={(product) => (
+            <ProductItem key={product.productName} product={product} />
+          )}
+        />
       </div>
     </div>
   );
