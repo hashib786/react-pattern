@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProductListProps } from "./App";
+import { ProductListProps } from "./RenderProp";
 
 export default function withToggles(
   WrappedComponent: (prop: ProductListProps) => JSX.Element
